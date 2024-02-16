@@ -14,6 +14,8 @@ class Customer extends User {
     protected string $guard_name = 'web';
     const  ROLE = 'customer';
 
+    protected $appends = ['full_name'];
+
     public function getMorphClass(): string {
         return User::class;
     }
@@ -28,5 +30,9 @@ class Customer extends User {
 
     public function orders() {
         return $this->hasMany(Order::class, 'customer_id');
+    }
+
+    public function getFullNameAttribute() {
+        return $this->name . " " . $this->last_name;
     }
 }

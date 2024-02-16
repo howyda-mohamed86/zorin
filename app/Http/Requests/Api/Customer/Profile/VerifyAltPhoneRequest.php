@@ -21,7 +21,7 @@ class VerifyAltPhoneRequest extends FormRequest {
     public function rules() {
         return [
             'phone' => ['required', 'exists:verification_codes', new KSAPhoneRule()],
-            'code' => ['required', 'numeric','digits:5', new IsValidVerificationCodeRule()],
+            'code' => ['required', 'numeric','digits:4', new IsValidVerificationCodeRule()],
 
         ];
     }

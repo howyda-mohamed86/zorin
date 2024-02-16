@@ -42,7 +42,6 @@ class RegisterCustomerRequest extends FormRequest
             'birth_date' => ['required', 'date'],
             'is_approved_conditions' => ['required', 'in:1'],
             'device_token' => ['required']
-
         ];
     }
 }

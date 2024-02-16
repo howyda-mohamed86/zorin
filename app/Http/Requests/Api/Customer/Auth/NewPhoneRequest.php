@@ -24,7 +24,7 @@ class NewPhoneRequest extends FormRequest {
     public function rules() {
         return [
             'phone' => ['required',new KSAPhoneRule()],
-            'code' => ['required','numeric','digits:5'],
+            'code' => ['required','numeric','digits:4'],
             'old_phone' => 'required',
         ];
     }

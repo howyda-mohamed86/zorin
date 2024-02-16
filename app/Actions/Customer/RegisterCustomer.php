@@ -15,17 +15,16 @@ class RegisterCustomer
     /**
      * @throws Exception
      */
-    public function handle($name, $last_name, $gender, $birth_date, $phone, $email, $device_token = null, $balance)
+    public function handle($first_name, $last_name, $gender, $birth_date, $phone, $email, $device_token = null)
     {
         $customer = Customer::create([
-            'name' => $name,
+            'name' => $first_name,
             'last_name' => $last_name,
             'gender' => $gender,
             'birth_date' => $birth_date,
             'active' => 1,
             'email' => $email,
             'phone' => $phone,
-            'balance' => $balance,
         ]);
 
         if ($device_token) {

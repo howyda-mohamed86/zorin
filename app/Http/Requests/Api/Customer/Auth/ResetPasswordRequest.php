@@ -28,7 +28,7 @@ class ResetPasswordRequest extends FormRequest {
     public function rules() {
         return [
             'phone' => ['required', new KSAPhoneRule()],
-            'code' => ['required', 'numeric', 'digits:5', new IsValidVerificationCodeRule()],
+            'code' => ['required', 'numeric', 'digits:4', new IsValidVerificationCodeRule()],
             'password' => ['required', 'confirmed',
                 Password::min(8)
                     ->mixedCase()

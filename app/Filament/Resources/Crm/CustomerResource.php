@@ -60,18 +60,14 @@ class CustomerResource extends Resource
                     ->required()
                     ->email()
                     ->autocomplete("off")
+                    ->columnSpan(['sm' => 1])
                     ->unique(ignoreRecord: true),
-                TextInput::make('balance')
-                    ->columnSpan(1)
-                    ->integer()
-                    ->required()
-                    ->label(__('forms.fields.balance')),
                 TextInput::make('phone')
                     ->prefix("+966")
                     ->required()
                     ->unique(ignoreRecord: true)
                     ->autocomplete("off")
-                    ->columnSpan(['sm' => 2]),
+                    ->columnSpan(['sm' => 1]),
                 Select::make('gender')
                     ->options([
                         'male' => __('forms.fields.male'),
@@ -98,7 +94,9 @@ class CustomerResource extends Resource
                     ->translateLabel()
                     ->searchable(),
                 SpatieMediaLibraryImageColumn::make('avatar'),
-                TextColumn::make('name')->searchable(),
+                TextColumn::make('full_name')
+                ->label(__('forms.fields.name'))
+                ->searchable(),
                 TextColumn::make('email')
                     ->copyable()
                     ->copyMessage('Email address copied')

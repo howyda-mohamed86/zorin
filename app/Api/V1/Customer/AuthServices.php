@@ -34,7 +34,7 @@ class AuthServices
         }
         CustomerHasRightsToLogin::run();
         UpdateUserToken::run($user, $request->get('device_token'));
-        return Api::isOk(__("Log IN process succeed,SMS Code sent"));
+        return Api::isOk(__("Log IN process succeed,SMS Code sent"))->setData(['phone' => $user->phone, 'code' => $user->verificationCodes->first()->code]);
     }
 
 
@@ -45,12 +45,14 @@ class AuthServices
 
     public function register(RegisterCustomerRequest $request)
     {
-        $customer = RegisterCustomer::run(...$request->only("name", "last_name", "gender", "birth_date", 'email', 'phone', 'device_token','balance'));
+        $customer = RegisterCustomer::run(...$request->only("first_name", "last_name", "gender", "birth_date", 'email', 'phone', 'device_token'));
         if ($request->hasFile("avatar")) {
             $customer->addMedia($request->file("avatar"))->toMediaCollection();
         }
         SendVerificationCode::run($customer);
-        return Api::isOk(__("Registration process succeed,SMS Code sent"));
+        return Api::isOk(__("Registration process succeed,SMS Code sent"))->setData([
+            'phone' => $customer->phone,
+            'code' => $customer->verificationCodes->first()->code]);
     }
 
     public function verify(VerifyAccountRequest $request)

@@ -29,7 +29,7 @@ class CodeConfirmRequest extends FormRequest {
     public function rules() {
         return [
             'phone' => ['required', 'exists:users', new KSAPhoneRule()],
-            'code' => ['required', 'numeric', 'digits:5', new IsValidVerificationCodeRule()],
+            'code' => ['required', 'numeric', 'digits:4', new IsValidVerificationCodeRule()],
         ];
     }
 
