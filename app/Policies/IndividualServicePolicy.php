@@ -30,7 +30,7 @@ class IndividualServicePolicy
      */
     public function view(User $user, IndividualService $individualService): bool
     {
-        return $user->can('{{ View }}');
+        return $user->can('view_catalog::individual::services');
     }
 
     /**

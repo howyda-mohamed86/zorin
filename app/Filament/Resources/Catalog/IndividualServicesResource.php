@@ -32,8 +32,10 @@ use Filament\Tables\Actions\Action;
 use Filament\Infolists\Infolist;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\Grid;
+use Filament\Infolists\Components\Section;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 
-class IndividualServicesResource extends Resource
+class IndividualServicesResource extends Resource implements HasShieldPermissions
 {
     use Translatable;
     use HasTranslationLabel;
@@ -61,7 +63,7 @@ class IndividualServicesResource extends Resource
                     ->required(),
                 Select::make('service_provider_id')
                     ->options(fn ($record, $get) => ServiceProvider::where('active', 1)->pluck('name', 'id'))
-                    ->visible(fn ($record) => auth()->user()->roles->pluck('name')[0] != 'service_provider')
+                    ->visible(fn ($record) => (auth()->user()->roles->whereNotIn('name', ['Service Provider']))->count() > 0)
                     ->required(),
                 TextInput::make('service_name')
                     ->required(),
@@ -118,7 +120,7 @@ class IndividualServicesResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => auth()->user()->roles->pluck('name')[0] == 'service_provider' ? $query->where('service_provider_id', auth()->id()) : $query)
+            ->modifyQueryUsing(fn (Builder $query) => (auth()->user()->roles->whereNotIn('name', ['Service Provider'])->count() > 0 ? $query : $query->where('service_provider_id', auth()->id())))
             ->columns([
                 Tables\Columns\TextColumn::make('index')->rowIndex(),
                 SpatieMediaLibraryImageColumn::make('default')
@@ -127,7 +129,7 @@ class IndividualServicesResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('category.name')->label(__('forms.fields.category')),
                 Tables\Columns\TextColumn::make('serviceProvider.name')
-                    ->visible(fn ($record) => auth()->user()->roles->pluck('name')[0] != 'service_provider')
+                    ->visible(fn ($record) => (auth()->user()->roles->whereNotIn('name', ['Service Provider']))->count() > 0)
                     ->label(__('forms.fields.serviceprovider')),
                 Tables\Columns\TextColumn::make('price_night')
                     ->label(__('forms.fields.price_night')),
@@ -164,7 +166,7 @@ class IndividualServicesResource extends Resource
                             TextEntry::make('service_name')->label(__('forms.fields.service_name')),
                             TextEntry::make('category.name')->label(__('forms.fields.category')),
                             TextEntry::make('serviceProvider.name')
-                                ->visible(fn ($record) => auth()->user()->roles->pluck('name')[0] != 'service_provider')
+                                ->visible(fn ($record) => (auth()->user()->roles->whereNotIn('name', ['Service Provider']))->count() > 0)
                                 ->label(__('forms.fields.serviceprovider')),
                             TextEntry::make('price_night')->label(__('forms.fields.price_night')),
                             TextEntry::make('area')->label(__('forms.fields.area')),
@@ -208,10 +210,21 @@ class IndividualServicesResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        if (auth()->user()->roles->pluck('name')[0] != 'service_provider') {
+        if ((auth()->user()->roles->whereNotIn('name', ['Service Provider']))->count() > 0) {
             return IndividualService::where('status', 1)->count();
         } else {
             return IndividualService::where('status', 1)->where('service_provider_id', auth()->id())->count();
         }
+    }
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view_any',
+            'view',
+            'create',
+            'update',
+            'delete',
+            'delete_any',
+        ];
     }
 }

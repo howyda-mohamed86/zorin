@@ -17,12 +17,12 @@ class CreateIndividualServices extends CreateRecord
             Actions\LocaleSwitcher::make(),
         ];
     }
-    protected function mutateFormDataBeforeCreate(array $data): array
-    {
-        if (!isset($data['service_provider_id'])) {
-            $data['service_provider_id'] = auth()->user()->id;
+    public function afterCreate(){
+        $record = $this->record;
+        if(auth()->user()->roles->whereIn('name', ['Service Provider'])->count() > 0){
+            $record->service_provider_id = auth()->user()->id;
+            $record->save();
         }
-        return $data;
     }
 
     protected function getRedirectUrl(): string

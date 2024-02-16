@@ -94,7 +94,8 @@ class CategoryResource extends Resource
     public static function getRelations(): array
     {
         return [
-
+          
+            'individualServices' => Catalog\CategoryResource\RelationManagers\IndividualServiceRelationManager::class,
         ];
     }
 
