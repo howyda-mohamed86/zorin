@@ -29,6 +29,7 @@ use Filament\Forms\Components\Textarea;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Infolists\Infolist;
 use Filament\Infolists\Components\TextEntry;
+use Tasawk\Filament\Resources\Hotels\HotelsResource\RelationManagers\HotelServices;
 
 class HotelsResource extends Resource implements HasShieldPermissions
 {
@@ -150,7 +151,7 @@ class HotelsResource extends Resource implements HasShieldPermissions
     public static function getRelations(): array
     {
         return [
-            //
+            'hotelServices' => HotelServices::class,
         ];
     }
 
