@@ -13,15 +13,14 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 use Tasawk\Models\IndividualService;
 
-class Category extends Model implements HasMedia {
-    use HasTranslations, Publishable, InteractsWithMedia;
+class Category extends Model  {
+    use HasTranslations, Publishable;
 
     protected $fillable = ['name', 'status'];
     public $translatable = ['name'];
     use HasFactory;
 
 
-    // individual services relation
     public function individualServices(): HasMany
     {
         return $this->hasMany(IndividualService::class);

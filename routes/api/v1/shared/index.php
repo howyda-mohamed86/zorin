@@ -3,7 +3,6 @@
 use Tasawk\Api\V1\Shared\ArticleServices;
 use Tasawk\Api\V1\Shared\BannerServices;
 use Tasawk\Api\V1\Shared\BrandServices;
-use Tasawk\Api\V1\Shared\CategoryServices;
 use Tasawk\Api\V1\Shared\ContentServices;
 use Tasawk\Api\V1\Shared\LocationServices;
 use Tasawk\Api\V1\Shared\NotificationServices;
@@ -11,7 +10,9 @@ use Tasawk\Api\V1\Shared\SharedProfileService;
 use Tasawk\Http\Middleware\EnsureThatBranchPresentInRequestHeader;
 use Tasawk\Api\V1\Providers\ServiceProviderRequestServices;
 use Tasawk\Api\V1\Hotels\HotelServices;
-use Tasawk\Api\V1\Shared\ReservationServices;
+use Tasawk\Api\V1\Hotels\ReservationServices;
+use Tasawk\Api\V1\Categories\ReservationServices as CategoryReservationServices;
+use Tasawk\Api\V1\Categories\CategoryServices;
 
 Route::prefix('v1')->group(function () {
     include __DIR__ . '/settings.php';
@@ -56,9 +57,17 @@ Route::prefix('v1')->group(function () {
         Route::get('/', [HotelServices::class, 'list']);
         Route::get('details/{hotel}', [HotelServices::class, 'show']);
     });
-
+    Route::group(['prefix' => 'categories'], function () {
+        Route::get('/', [CategoryServices::class, 'list']);
+        Route::get('individual-service/{individualService}', [CategoryServices::class, 'show']);
+    });
     Route::group(['prefix' => 'hotel', 'middleware' => 'auth:sanctum'], function () {
         Route::post('/reservation/details', [ReservationServices::class, 'details'])->name('reservation.details');
         Route::post('/reservation', [ReservationServices::class, 'store'])->name('reservation.store');
+    });
+
+    Route::group(['prefix' => 'individual-service', 'middleware' => 'auth:sanctum'], function () {
+        Route::post('/reservation/details', [CategoryReservationServices::class, 'details'])->name('reservation.details');
+        Route::post('/reservation', [CategoryReservationServices::class, 'store'])->name('reservation.store');
     });
 });

@@ -37,7 +37,8 @@ class IndividualService extends Model implements HasMedia
 
     protected $appends = [
         'default',
-        // 'is_public_utility_text'
+        'status_text',
+        'public_utilities_data',
     ];
 
     protected $casts = [
@@ -57,6 +58,14 @@ class IndividualService extends Model implements HasMedia
         'address',
         'notes',
     ];
+
+    public function getPublicUtilitiesDataAttribute()
+    {
+        $publicUtilities = PublicUtility::whereIn('id', $this->public_utilities)
+        ->select('id', 'name->' . app()->getLocale() . ' as public_utility_name')
+        ->get();
+        return $publicUtilities;
+    }
 
     public function category()
     {

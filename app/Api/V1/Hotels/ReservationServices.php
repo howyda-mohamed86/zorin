@@ -1,6 +1,6 @@
 <?php
 
-namespace Tasawk\Api\V1\Shared;
+namespace Tasawk\Api\V1\Hotels;
 
 use Tasawk\Api\Facade\Api;
 use Tasawk\Models\Hotel;
@@ -28,6 +28,7 @@ class ReservationServices
             ->where('hotel_service_id', $request->hotel_service_id)
             ->whereBetween('date_from', [$date_from, $date_to])
             ->OrwhereBetween('date_to', [$date_from, $date_to])
+            ->where('category_type', 'hotel')
             ->where('status', 1)
             ->first();
         if ($reservation) {

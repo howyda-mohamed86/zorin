@@ -122,8 +122,8 @@ return [
     'url' => 'The :attribute format is invalid.',
     'uuid' => 'The :attribute must be a valid UUID.',
 
-    "zone_id"=>"Zone",
-    "state"=>"State",
+    "zone_id" => "Zone",
+    "state" => "State",
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
@@ -135,10 +135,7 @@ return [
     |
     */
 
-    'custom' => [
-
-
-    ],
+    'custom' => [],
     'api' => [
         'product' => [
             'not_exists' => "Product with id :id not exists",
@@ -149,18 +146,18 @@ return [
             "value_not_exists" => ":title value is invalid",
             "value_not_available" => ":title value is not available",
             "option_required" => ":title is required",
-            'option_unavailable'=>"Option :option is not available",
+            'option_unavailable' => "Option :option is not available",
         ],
         "branch_not_available" => "Branch not available",
         "address_out_side_current_branch" => 'Address out side current branch',
         "branch_in_maintenance_mode" => 'Branch in maintenance mode',
         'invalid_status' => 'Invalid status',
         "invalid_phone_format" => "The phone number is invalid",
-        "invalid_credentials"=>"Invalid credentials",
-        'invalid_verification_code'=>"Invalid code or maybe expired",
-        "order_not_delivered_yet"=>"Order not delivered yet",
-        "order_already_rated"=>"Order already rated",
-        "invalid_address"=>"Invalid address",
+        "invalid_credentials" => "Invalid credentials",
+        'invalid_verification_code' => "Invalid code or maybe expired",
+        "order_not_delivered_yet" => "Order not delivered yet",
+        "order_already_rated" => "Order already rated",
+        "invalid_address" => "Invalid address",
 
 
 
@@ -201,6 +198,7 @@ return [
         'product_id' => 'Product',
         'is_approved_terms' => 'Approved Terms and Conditions',
         'hotel_service_id' => 'Hotel Service',
+        'individual_service_id' => 'Individual Service',
     ],
 
 ];

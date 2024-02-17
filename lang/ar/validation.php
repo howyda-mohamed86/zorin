@@ -218,6 +218,7 @@ return [
         'avatar' => 'الصورة',
         'is_approved_terms' => 'الموافقة على الشروط و الأحكام',
         'hotel_service_id' => 'الخدمة الفندقيه',
+        'individual_service_id' => 'الخدمة الفردية',
 
     ],
     'values' => [

@@ -11,6 +11,7 @@ use DB;
 use NumberFormatter;
 use Tasawk\Models\Catalog\Product;
 use Tasawk\Models\HotelService;
+use Tasawk\Models\IndividualService;
 use Tasawk\Settings\GeneralSettings;
 use function Livewire\of;
 
@@ -53,6 +54,24 @@ class Cart extends CoreCart
     }
 
     function applyService(HotelService $service, $request, $qty = 1, $attributes = [], $conditions = [])
+    {
+        $price = $service->price_night;
+        $qty = $request->to - $request->from;
+        $this->add(
+            \Str::uuid()->toString(),
+            $service->service_name,
+            $price,
+            $qty,
+            [
+                "original_price" => $price,
+                ...$attributes
+            ],
+            $conditions,
+        );
+        return $this;
+    }
+
+    function applyIndividualService(IndividualService $service, $request, $qty = 1, $attributes = [], $conditions = [])
     {
         $price = $service->price_night;
         $qty = $request->to - $request->from;
