@@ -20,8 +20,10 @@ class Reservation extends Model
         'customer_id',
         'service_provider_id',
         'category_id',
-        'hotel_id', // Add this line
+        'individual_service_id',
         'category_type',
+        'hotel_id',
+        'hotel_service_id',
         'date_from',
         'date_to',
         'month',
@@ -69,7 +71,4 @@ class Reservation extends Model
     {
         return $this->belongsTo(Hotel::class);
     }
-
-
-
 }

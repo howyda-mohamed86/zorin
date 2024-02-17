@@ -4,14 +4,16 @@ namespace Tasawk\Http\Requests\Api\Shared;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ReservationRequest extends FormRequest {
+class HotelReservationRequest extends FormRequest
+{
 
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize() {
+    public function authorize()
+    {
         return true;
     }
 
@@ -22,17 +24,16 @@ class ReservationRequest extends FormRequest {
      *
      * @return array
      */
-    public function rules() {
-        return[
-            'type' => 'required|in:hotel,category',
-            'category_id' => 'required_if:type,category|exists:categories,id',
-            'hotel_id' => 'required_if:type,hotel|exists:hotels,id',
-            'month' => 'required|date_format:m',
+    public function rules()
+    {
+
+        return [
+            'hotel_id' => 'required|exists:hotels,id',
+            'hotel_service_id' => 'required|exists:hotel_services,id,hotel_id,' . $this->hotel_id,
+            'month' => 'required',
             'from' => 'required|integer',
             'to' => 'required|integer',
-            'night_count' => 'required|integer',
             'payment_method' => 'required|in:debit,MyFatoorah',
         ];
     }
-
 }

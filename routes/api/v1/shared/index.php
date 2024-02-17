@@ -18,7 +18,7 @@ Route::prefix('v1')->group(function () {
 
 
     Route::get('banners', [BannerServices::class, 'list']);
-    Route::get('categories', [CategoryServices::class, 'list'])->where('type','design|product');
+    Route::get('categories', [CategoryServices::class, 'list'])->where('type', 'design|product');
     Route::get('categories/{category}', [CategoryServices::class, 'show']);
 
     Route::get('categories/{category}/patterns', [CategoryServices::class, 'patterns']);
@@ -27,7 +27,7 @@ Route::prefix('v1')->group(function () {
     Route::get('brands/{brand}/products', [BrandServices::class, 'products']);
     Route::get('brands/{brand}/products/{product}', [BrandServices::class, 'product']);
 
-//    Route::get('categories/{category}', [CategoryServices::class, 'show']);
+    //    Route::get('categories/{category}', [CategoryServices::class, 'show']);
 
     Route::get('articles', [ArticleServices::class, 'list']);
     Route::get('articles/{article}', [ArticleServices::class, 'show']);
@@ -52,10 +52,13 @@ Route::prefix('v1')->group(function () {
         Route::post('joining-request', [ServiceProviderRequestServices::class, 'addRequest']);
     });
 
-    Route::group(['prefix' => 'hotels'],function(){
+    Route::group(['prefix' => 'hotels'], function () {
         Route::get('/', [HotelServices::class, 'list']);
         Route::get('details/{hotel}', [HotelServices::class, 'show']);
     });
-    Route::post('booking', [ReservationServices::class, 'booking']);
 
+    Route::group(['prefix' => 'hotel', 'middleware' => 'auth:sanctum'], function () {
+        Route::post('/reservation/details', [ReservationServices::class, 'details'])->name('reservation.details');
+        Route::post('/reservation', [ReservationServices::class, 'store'])->name('reservation.store');
+    });
 });

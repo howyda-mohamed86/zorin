@@ -82,6 +82,11 @@ class User extends Authenticatable implements HasMedia, FilamentUser, HasLocaleP
         return $this->update(['active' => 1]);
     }
 
+    // reservations relation
+    public function reservations(): HasMany {
+        return $this->hasMany(Reservation::class, 'customer_id');
+    }
+
     public function deviceTokens(): HasMany {
         return $this->hasMany(DeviceToken::class, "user_id");
     }

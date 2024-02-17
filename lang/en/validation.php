@@ -200,6 +200,7 @@ return [
         'branch_id' => 'Branch',
         'product_id' => 'Product',
         'is_approved_terms' => 'Approved Terms and Conditions',
+        'hotel_service_id' => 'Hotel Service',
     ],
 
 ];

@@ -16,8 +16,10 @@ return new class extends Migration
             $table->string('reservation_number')->nullable();
             $table->foreignId('customer_id')->constrained('users');
             $table->foreignId('service_provider_id')->constrained('users');
-            $table->foreignId('category_id')->constrained('categories')->nullable();
-            $table->foreignId('hotel_id')->constrained('hotels')->nullable();
+            $table->foreignId('category_id')->nullable();
+            $table->foreignId('individual_service_id')->nullable();
+            $table->foreignId('hotel_id')->nullable();
+            $table->foreignId('hotel_service_id')->nullable();
             $table->enum('category_type', ['hotel', 'category'])->nullable();
             $table->date('date_from')->nullable();
             $table->date('date_to')->nullable();
